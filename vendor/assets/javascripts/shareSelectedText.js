@@ -32,7 +32,9 @@
         linkedin: 'linkedin',
         stumbleupon: 'stumbleupon',
         reddit: 'reddit',
-        tumblr: 'tumblr'
+        tumblr: 'tumblr',
+        facebook: 'facebook',
+        email: 'email'
     };
 
     var NO_START_WITH = /[ .,!?/\\\+\-=*£$€:~§%^µ)(|@"{}&#><_]/g;
@@ -105,6 +107,9 @@
     };
 
     var generateSocialUrl = function generateSocialUrl(socialType, text) {
+
+        var facebookText = smartSanitize(text);
+
         if (parameters.sanitize) {
             text = sanitizeText(text, socialType);
         } else {
@@ -117,6 +122,17 @@
             twitterUrl += '&via=' + parameters.twitterUsername;
         }
 
+        var facebookUrl = 'https://facebook.com/dialog/share?display=popup&href=' + PAGE_URL + '&text="' + text + '"';
+
+        if (document.querySelector('meta[property="fb:app_id"]') && document.querySelector('meta[property="fb:app_id"]').getAttribute('content')) {
+          var appId = document.querySelector('meta[property="fb:app_id"]').getAttribute('content');
+          facebookUrl += '&app_id=' + appId;
+        } else if (parameters.facebookAppID && parameters.facebookAppID.length) {
+          facebookUrl += '&app_id=' + parameters.facebookAppID;
+        } else {
+          parameters.buttons.splice(parameters.buttons.indexOf('facebook'), 1);
+        }
+
         var urls = {
             twitter: twitterUrl,
             buffer: 'https://buffer.com/add?text="' + text + '"&url=' + PAGE_URL,
@@ -124,7 +140,9 @@
             linkedin: 'https://www.linkedin.com/shareArticle?url=' + PAGE_URL + '&title=' + text,
             stumbleupon: 'http://www.stumbleupon.com/submit?url=' + PAGE_URL + '&title=' + text,
             reddit: 'https://reddit.com/submit?url=' + PAGE_URL + '&title=' + text,
-            tumblr: 'https://www.tumblr.com/widgets/share/tool?canonicalUrl=' + PAGE_URL + '&caption=' + text
+            tumblr: 'https://www.tumblr.com/widgets/share/tool?canonicalUrl=' + PAGE_URL + '&caption=' + text,
+            facebook: facebookUrl,
+            email: 'mailto:?subject=' + parameters.emailSubject + '&body=' + parameters.emailPrependText + text
         };
 
         if (urls.hasOwnProperty(socialType)) {
@@ -247,7 +265,10 @@
             buttons: [SOCIAL.twitter, SOCIAL.buffer],
             anchorsClass: '',
             twitterUsername: '',
-            tooltipTimeout: TOOLTIP_TIMEOUT
+            facebookAppID: '',
+            tooltipTimeout: TOOLTIP_TIMEOUT,
+            emailSubject: '',
+            emailPrependText: ''
         }, args);
 
         tooltip = generateTooltip();
