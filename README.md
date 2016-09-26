@@ -4,6 +4,12 @@ Rails Engine for [share-selected-text](https://github.com/VincentLoy/share-selec
 
 > *share selected text on twitter, buffer, and some others. Inspired by [medium.com](http://medium.com)*
 
+## Note on Develop
+
+It is not recommended that you use this branch. It is not stable and is for use
+keeping up with features I need the gem to have in the meantime while putting
+together PRs for the actual share-selected-text library.
+
 ## Installation
 
 Add this line to your application's Gemfile:
