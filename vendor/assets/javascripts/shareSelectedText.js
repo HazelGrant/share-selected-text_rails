@@ -121,7 +121,7 @@
             twitterUrl += '&via=' + parameters.twitterUsername;
         }
 
-        var facebookUrl = 'https://facebook.com/dialog/share?display=popup&href=' + PAGE_URL + '&text="' + text + '"';
+        var facebookUrl = 'https://facebook.com/dialog/share?display=popup&href=' + PAGE_URL + '&quote="' + facebookText + '"';
 
         if (document.querySelector('meta[property="fb:app_id"]') && document.querySelector('meta[property="fb:app_id"]').getAttribute('content')) {
           var appId = document.querySelector('meta[property="fb:app_id"]').getAttribute('content');
