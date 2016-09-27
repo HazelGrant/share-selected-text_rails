@@ -34,7 +34,7 @@
         reddit: 'reddit',
         tumblr: 'tumblr',
         facebook: 'facebook',
-        email: 'email'
+        email: 'envelope'
     };
 
     var NO_START_WITH = /[ .,!?/\\\+\-=*£$€:~§%^µ)(|@"{}&#><_]/g;
