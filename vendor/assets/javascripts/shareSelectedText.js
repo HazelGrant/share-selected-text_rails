@@ -251,7 +251,7 @@
     var shareTooltip = function shareTooltip() {
         selected = getSelectedText();
 
-        if (selected.text.length) {
+        if (selected.text.length && selected.text.length > 0) {
             var oRange = selected.selection.getRangeAt(0);
             var oRect = oRange.getBoundingClientRect();
             updateTooltip(oRect);
