@@ -34,7 +34,7 @@
         reddit: 'reddit',
         tumblr: 'tumblr',
         facebook: 'facebook',
-        email: 'envelope'
+        email: 'email'
     };
 
     var NO_START_WITH = /[ .,!?/\\\+\-=*£$€:~§%^µ)(|@"{}&#><_]/g;
@@ -107,10 +107,6 @@
     };
 
     var generateSocialUrl = function generateSocialUrl(socialType, text) {
-        if (socialType == 'envelope') {
-          socialType = 'email'
-        }
-
         var facebookText = smartSanitize(text);
 
         if (parameters.sanitize) {
@@ -176,6 +172,11 @@
 
         var anchorTag = document.createElement('A');
         var anchorIcon = document.createElement('i');
+        var anchorClass = anchorType;
+
+        if (anchorType == 'email') {
+          anchorClass = 'envelope';
+        }
 
         if (parameters.anchorsClass) {
             anchorTag.classList.add('share-selected-text-btn', 'share-selected-text-btn-' + anchorType, '' + parameters.anchorsClass);
@@ -186,7 +187,7 @@
         if (customIconClass) {
             anchorIcon.classList.add('' + customIconClass);
         } else {
-            anchorIcon.classList.add('icon-sst-' + anchorType, 'fa', 'fa-' + anchorType);
+            anchorIcon.classList.add('icon-sst-' + anchorType, 'fa', 'fa-' + anchorClass);
         }
 
         anchorIcon.style.pointerEvents = 'none';
@@ -203,6 +204,8 @@
     };
 
     var generateTooltip = function generateTooltip() {
+        console.log("in `generateTooltip`: " + parameters.buttons);
+
         var body = document.querySelector('body');
         var mainDiv = document.createElement('DIV');
         var btnContainer = document.createElement('DIV');
@@ -250,6 +253,8 @@
     var shareTooltip = function shareTooltip() {
         selected = getSelectedText();
 
+        console.log("in `shareTooltip`: " + parameters.buttons);
+
         if (selected.text.length) {
             var oRange = selected.selection.getRangeAt(0);
             var oRect = oRange.getBoundingClientRect();
@@ -273,6 +278,8 @@
             emailSubject: '',
             emailPrependText: ''
         }, args);
+
+        console.log("in `exports.shareSelectedText`: " + parameters.buttons);
 
         tooltip = generateTooltip();
 
