@@ -107,6 +107,9 @@
     };
 
     var generateSocialUrl = function generateSocialUrl(socialType, text) {
+        if (socialType == 'envelope') {
+          socialType = 'email'
+        }
 
         var facebookText = smartSanitize(text);
 
