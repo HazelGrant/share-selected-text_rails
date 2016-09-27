@@ -204,8 +204,6 @@
     };
 
     var generateTooltip = function generateTooltip() {
-        console.log("in `generateTooltip`: " + parameters.buttons);
-
         var body = document.querySelector('body');
         var mainDiv = document.createElement('DIV');
         var btnContainer = document.createElement('DIV');
@@ -253,8 +251,6 @@
     var shareTooltip = function shareTooltip() {
         selected = getSelectedText();
 
-        console.log("in `shareTooltip`: " + parameters.buttons);
-
         if (selected.text.length) {
             var oRange = selected.selection.getRangeAt(0);
             var oRect = oRange.getBoundingClientRect();
@@ -279,12 +275,18 @@
             emailPrependText: ''
         }, args);
 
-        console.log("in `exports.shareSelectedText`: " + parameters.buttons);
-
         tooltip = generateTooltip();
 
+        // Get rid of the tooltip if user clicks outside of element
+        $('html').on('mouseup', function() {
+          hideTooltip();
+        });
+
         Array.prototype.forEach.call(elt, function (el) {
-            el.addEventListener('mouseup', function () {
+            el.addEventListener('mouseup', function (event) {
+                // Don't hide tooltip unless shareTooltip() determines
+                // that that's the right thing to do
+                event.stopPropagation();
                 shareTooltip();
             });
         });
